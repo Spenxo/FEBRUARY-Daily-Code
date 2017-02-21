@@ -13,8 +13,8 @@ int main()
 
 	//these two variables hold the x and y positions of the player
 	//initalize these variables to where you want your player to start
-	float player_x = 50;
-	float player_y = 50;
+	float player_x = 25;
+	float player_y = 25;
 
 	//here's our key states. they're all starting as "false" because nothing has been pressed yet.
 	//the first slot represents "up", then "down", "left" and "right"
@@ -32,7 +32,7 @@ int main()
 	//get the keyboard ready to use
 	al_install_keyboard();
 
-	timer = al_create_timer(.02);
+	timer = al_create_timer(.03);
 
 	display = al_create_display(640, 480);
 
@@ -54,7 +54,7 @@ int main()
 	//new! tell the event queue that it should take keyboard events, too
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 
-	al_clear_to_color(al_map_rgb(0, 0, 0));
+	al_clear_to_color(al_map_rgb(0, 0, 150));
 
 	al_flip_display();
 
@@ -81,28 +81,35 @@ int main()
 				!(player_x > 70 && player_x < 298 && player_y < 202 && player_y>194))
 
 			{
-				player_y -= 10.0;
+				player_y -= 7.0;
 			}
 
 			//if the down button is pressed AND we're still above the bottom wall
 			//move the box "down" by 4 pixels
-			if (key[1] && player_y <= 480 - 32) {
-				player_y += 10.0;
+			if ((key[1] && player_y <= 480 - 32)&&
+				!(player_x > 69 && player_x < 300 && player_y > 66  && player_y < 200))
+			{
+				player_y += 7.0;
 			}
 			//if the left button is pressed AND we're still right of the left wall
 			//move the box left by 4 pixels
-			if (key[2] && player_x >= 0)
+			if ((key[2] && player_x >= 0) &&
+				!(player_x > 295 && player_x < 300 && player_y >66 && player_y <200))
+
 
 			{
-				player_x -= 10.0;
+				player_x -= 7.0;
 			}
 
 			//if the left button is pressed AND we're still left of the right wall
 			//move the box right by 4 pixels
-			if ((key[3] && player_x <= 640 - 32) &&
-				!(player_x > 66 && player_x < 78 && player_y >66 && player_y < 198)) {
-				player_x += 10.0;
+			if (((key[3] && player_x <= 640 - 32) &&
+				!(player_x > 66 && player_x < 78 && player_y >66 && player_y < 200))&&
+				!(player_x > 508 && player_x < 510 && player_y > -3 && player_y < 103)){
+				player_x += 7.0;
 			}
+
+			
 
 			//redraw at every tick of the timer
 			redraw = true;
@@ -185,7 +192,8 @@ int main()
 			al_draw_bitmap(player, player_x, player_y, 0);
 
 			//wall 1
-			al_draw_filled_rectangle(100, 100, 300, 200, al_map_rgb(200, 100, 0));
+			al_draw_filled_rectangle(100, 100, 300, 200, al_map_rgb(200, 100, 255));
+			al_draw_filled_rectangle(540, 0, 640, 100, al_map_rgb(0, 100, 100));
 
 			al_flip_display();
 		}
