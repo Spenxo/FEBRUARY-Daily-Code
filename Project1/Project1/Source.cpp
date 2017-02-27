@@ -78,38 +78,38 @@ int main()
 			//if the up button is pressed AND we're still below the top wall,
 			//move the box "up" by 4 pixels
 			if (((key[0] && player_y >= 0) &&
-				!(player_x > 70 && player_x < 298 && player_y < 202 && player_y > 194))&&
-				!(player_x > 511 && player_x < 610 && player_y < 101 && player_y > 99))
-			{ 	
-				player_y -= 4.0;
+				!(player_x > 70 && player_x < 298 && player_y < 202 && player_y > 194)) &&
+				!(player_x > 509 && player_x < 611 && player_y < 101 && player_y > 96))&&
+				!(player_x > 518 && player_x < 601 && player_y < 400 && player_y > )
+			{
+				player_y -= 4;
 			}
 
 			//if the down button is pressed AND we're still above the bottom wall
 			//move the box "down" by 4 pixels
-			if ((key[1] && player_y <= 480 - 32)&&
-				!(player_x > 69 && player_x < 300 && player_y > 66  && player_y < 200))
+			if ((key[1] && player_y <= 480 - 32) &&
+				!(player_x > 69 && player_x < 300 && player_y > 66 && player_y < 200))
 			{
-				player_y += 4.0;
+				player_y += 4;
 			}
 			//if the left button is pressed AND we're still right of the left wall
 			//move the box left by 4 pixels
 			if ((key[2] && player_x >= 0) &&
 				!(player_x > 295 && player_x < 300 && player_y >66 && player_y <200))
-
-
 			{
-				player_x -= 4.0;
+				player_x -= 4;
 			}
 
 			//if the left button is pressed AND we're still left of the right wall
 			//move the box right by 4 pixels
 			if (((key[3] && player_x <= 640 - 32) &&
-				!(player_x > 66 && player_x < 78 && player_y >66 && player_y < 200))&&
-				!(player_x > 508 && player_x < 510 && player_y > -4 && player_y < 101)){
-				player_x += 4.0;
+				!(player_x > 66 && player_x < 78 && player_y >66 && player_y < 200)) &&
+				!(player_x > 508 && player_x < 510 && player_y > -4 && player_y < 101)) 
+			{
+				player_x += 4;
 			}
 
-			
+
 
 			//redraw at every tick of the timer
 			redraw = true;
@@ -193,7 +193,8 @@ int main()
 
 			//wall 1
 			al_draw_filled_rectangle(100, 100, 300, 200, al_map_rgb(200, 100, 255));
-			al_draw_filled_rectangle(540, 0, 640, 100, al_map_rgb(0, 100, 100));
+			al_draw_filled_rectangle(540, 0, 640, 100, al_map_rgb(255, 100, 100));
+			al_draw_filled_rectangle(550, 300, 600, 400, al_map_rgb(0, 0, 255));
 
 			al_flip_display();
 		}
