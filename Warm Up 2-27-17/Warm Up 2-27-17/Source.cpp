@@ -16,7 +16,7 @@ int main() {
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 
-	al_draw_ribbon(*Picture, sizeof(*Picture), al_map_rgb(220, 10, 150), 100, 5);
+	al_draw_ribbon(*Picture, sizeof(*Picture), al_map_rgb(220, 10, 150), 1, 5);
 
 	al_flip_display();
 
