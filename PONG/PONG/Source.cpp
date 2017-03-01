@@ -3,6 +3,8 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_font.h>
 
+
+int collision(int b1x, int b1y, int b1w, int b1h, int b2x, int b2y, int b2w, int b2h);
 int main() {
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
@@ -20,8 +22,8 @@ int main() {
 	float square2_x = 570;
 	float square2_y = 40;
 
-	float bouncer_x = 32;
-	float bouncer_y = 32;
+	float bouncer_x = 480/2;
+	float bouncer_y = 640/2;
 
 	int squarescore = 0;
 	int square2score = 0;
@@ -32,6 +34,7 @@ int main() {
 	bool key2[4] = { false, false, false, false };
 	bool key[4] = { false, false, false, false };
 	float bouncer_dx = -5.0, bouncer_dy = 5.0;
+	
 	//don't redraw until an event happens
 	bool redraw = true;
 
@@ -50,7 +53,7 @@ int main() {
 
 	display = al_create_display(640, 480);
 
-	font = al_load_ttf_font("Pong.ttf", 72, 0);
+	font = al_load_ttf_font("Pong.ttf", 100, 0);
 
 	square = al_create_bitmap(32, 128);
 	square2 = al_create_bitmap(32, 128);
@@ -109,9 +112,11 @@ int main() {
 				square2score = square2score + 1;
 			}
 			
-			if (bouncer_x >= 479 && bouncer_y >= 0 && bouncer_y <= 480) {
+			if (bouncer_x >= 600 && bouncer_y >= 0 && bouncer_y <= 480) {
 				squarescore = squarescore + 1;
 			}
+
+
 			//really important code!
 			//move the box in a diagonal
 			bouncer_x += bouncer_dx;
@@ -137,6 +142,10 @@ int main() {
 				square_y += 8.0;
 			}
 		}
+
+		if (collision(bouncer_x, bouncer_y ,42,42, square_y, square2_x,32,128) == 1)
+			bouncer_dx = -bouncer_dx;
+		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			break;
@@ -209,14 +218,15 @@ int main() {
 
 			//the algorithm above just changes the x and y coordinates
 			//here's where the bitmap is actually drawn somewhere else
+
 			al_draw_bitmap(square, square_x, square_y, 0);
 
 			al_draw_bitmap(square2, square2_x, square2_y, 0);
 
 			al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
 
-			al_draw_textf(font, al_map_rgb(255, 255, 255), 40, 40, ALLEGRO_ALIGN_CENTRE, "squarescore = + 1", squarescore);
-			al_draw_textf(font, al_map_rgb(255, 255, 255), 570, 40, ALLEGRO_ALIGN_CENTRE, "square2score = + 1", square2score);
+			al_draw_textf(font, al_map_rgb(255, 255, 255), 69, 40, ALLEGRO_ALIGN_LEFT, "%i", squarescore);
+			al_draw_textf(font, al_map_rgb(255, 255, 255), 570, 40, ALLEGRO_ALIGN_RIGHT, "%i", square2score);
 
 			al_flip_display();
 		}
@@ -231,5 +241,19 @@ int main() {
 	al_destroy_event_queue(event_queue);
 
 	return 0;
+} //main
+
+int collision(int b1x, int b1y, int b1w, int b1h, int b2x, int b2y, int b2w, int b2h) {
+		//if ball is to left of paddle
+	if ((b1x>b2x+b2w==1) ||
+		//if ball is above paddle
+		(b1y>b2y+b2h==1) ||
+		//if ball is below paddle
+		(b1y>b2y+b1w==1) ||
+		//if ball is to right of paddle
+		(b1x>b2x+b2h==1))
+		return 0;
+	else
+		return 1;
 }
 
